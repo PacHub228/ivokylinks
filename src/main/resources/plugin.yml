@@ -1,0 +1,8 @@
+name: TGLink
+version: 1.0
+main: pac.hy_da.ivokylinks.Ivokylinks
+api-version: 1.16
+commands:
+  link:
+    description: Привязать Telegram аккаунт
+    usage: /link
