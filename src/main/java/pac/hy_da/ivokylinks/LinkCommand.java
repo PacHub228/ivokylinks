@@ -28,8 +28,9 @@ public class LinkCommand implements CommandExecutor {
         }
 
         String code = plugin.getLinkManager().generateCode(player.getUniqueId());
+        String botUsername = plugin.getConfig().getString("bot.username", "ivokyserver_bot");
         player.sendMessage(ChatColor.GREEN + "Ваш код: " + ChatColor.YELLOW + code);
-        player.sendMessage(ChatColor.GRAY + "Отправьте его боту: @ivokyserver_bot");
+        player.sendMessage(ChatColor.GRAY + "Отправьте его боту: @" + botUsername);
 
         return true;
     }

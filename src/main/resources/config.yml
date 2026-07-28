@@ -1,0 +1,10 @@
+bot:
+  username: "USERNAME_BOT_TELEGRAM"
+  token: "TOKEN_BOT_TELEGRAM"
+
+reward:
+  diamonds: 5
+  exp: 50
+
+auth:
+  world: "AUTHTG"
