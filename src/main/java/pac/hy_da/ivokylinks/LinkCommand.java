@@ -22,6 +22,11 @@ public class LinkCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
+        if (plugin.getBot() == null) {
+            player.sendMessage(ChatColor.RED + "Telegram-бот сейчас недоступен, попробуйте позже.");
+            return true;
+        }
+
         if (plugin.getDatabase().getTelegramId(player.getUniqueId()) != -1) {
             player.sendMessage(ChatColor.RED + "Ваш аккаунт уже привязан к Telegram!");
             return true;

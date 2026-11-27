@@ -1,5 +1,5 @@
 name: TGLink
-version: 0.5
+version: 1.0
 main: pac.hy_da.ivokylinks.Ivokylinks
 api-version: 1.16
 commands:

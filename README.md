@@ -1,25 +1,25 @@
 # TGLink (ivokylinks)
 
-Плагин для Minecraft-серверов на Spigot/Paper, который связывает игровой аккаунт с Telegram: привязка по одноразовому коду, награда за первую привязку, блокировка/разблокировка доступа и защита входа при смене IP-адреса — всё управляется через Telegram-бота.
+Плагин для серверов Minecraft (Spigot/Paper 1.16.5), который связывает игровой аккаунт с Telegram. Игрок привязывает профиль по одноразовому коду, получает награду, а дальше может защитить вход по IP и блокировать аккаунт прямо из бота.
 
-## Возможности
+## Что умеет плагин
 
-- **Привязка аккаунта** — игрок вводит `/link` в игре, получает 6-значный код (действует 10 минут, одноразовый) и отправляет его боту в Telegram.
-- **Награда за первую привязку** — настраиваемое количество алмазов и опыта; если инвентарь полон, остаток падает на землю рядом с игроком.
-- **Блокировка/разблокировка** — владелец Telegram-аккаунта может заблокировать вход на сервер прямо из бота; заблокированный игрок получает кик при попытке зайти.
-- **Защита по IP** — если у привязанного игрока меняется IP, он телепортируется в отдельный мир (`AUTHTG` по умолчанию) и не может двигаться/ломать блоки/использовать команды, пока не подтвердит вход кнопкой в Telegram. Если бот недоступен, проверка IP автоматически пропускается — чтобы игрок не остался заблокирован навсегда.
-- **Информация об аккаунте** — кнопка «ℹ Инфо» в боте показывает никнейм, статус блокировки, статус награды и последний известный IP.
+- **Привязка аккаунта** - игрок вводит `/link` в игре, получает 6-значный код и отправляет его боту в личные сообщения. Код действует 10 минут.
+- **Награда за привязку** - выдает алмазы и опыт (настраивается в конфиге). Если игрок в этот момент на сервере, награда придет сразу. Если инвентарь полон, лишнее упадет рядом.
+- **Блокировка из бота** - можно в любой момент заблокировать или разблокировать свой аккаунт. Если игрок уже на сервере, его сразу кикнет.
+- **Подтверждение входа при смене IP** - если игрок зашел с нового IP, его переносит в отдельный мир (`AUTHTG` по умолчанию) и замораживает, пока он не нажмет кнопку подтверждения в Telegram. Если бот в этот момент не работает, проверка пропускается, чтобы никто не застрял.
+- **Инфо об аккаунте** - в боте можно посмотреть ник, статус блокировки, получена ли награда и последний IP.
 
 ## Установка
 
-1. Скачайте `TGLink-<версия>.jar` из [Releases](../../releases) или соберите сами (см. ниже).
-2. Поместите jar в папку `plugins` вашего сервера.
-3. Запустите сервер один раз, чтобы сгенерировался `plugins/TGLink/config.yml`.
-4. Отредактируйте `config.yml` — впишите токен и юзернейм своего Telegram-бота (получить у [@BotFather](https://t.me/BotFather)).
-5. Перезапустите сервер (или `/reload`, плагин это переживает без зависаний).
-6. Игроки вводят `/link` в игре и отправляют полученный код боту.
+1. Скачайте готовый jar из [Releases](../../releases) или соберите проект сами.
+2. Закиньте файл в папку `plugins` вашего сервера.
+3. Запустите сервер, чтобы появился файл `plugins/TGLink/config.yml`.
+4. Впишите в `config.yml` токен и юзернейм бота (их выдает [@BotFather](https://t.me/BotFather)).
+5. Перезапустите сервер.
+6. Готово - игроки могут писать `/link` в игре и отправлять код боту.
 
-## Конфигурация (`config.yml`)
+## Настройка (`config.yml`)
 
 ```yaml
 bot:
@@ -27,60 +27,58 @@ bot:
   token: "TOKEN_BOT_TELEGRAM"         # токен от @BotFather
 
 reward:
-  diamonds: 5                         # алмазов за первую привязку
-  exp: 50                             # опыта за первую привязку
+  diamonds: 5                         # сколько алмазов выдать за привязку
+  exp: 50                             # сколько опыта выдать за привязку
 
 auth:
-  world: "AUTHTG"                     # мир, в который телепортирует при смене IP
+  world: "AUTHTG"                     # мир ожидания при смене IP
 ```
 
-## Сборка из исходников
+## Сборка
 
 ```bash
 mvn clean package
 ```
 
-Собранный jar появится в `target/TGLink-<версия>.jar` (используется maven-shade-plugin, все зависимости уже внутри).
+Готовый файл появится в папке `target/TGLink-1.0.jar` (все нужные библиотеки уже внутри).
 
 ## Требования
 
-- Paper/Spigot API **1.16.5**
-- Java **8–16** для запуска самого сервера Paper 1.16.5 (более новые JDK, например 17+, официально не поддерживаются ядром этой версии Minecraft)
-- Аккаунт Telegram-бота (токен через [@BotFather](https://t.me/BotFather))
-- SQLite — зависимость подключена автоматически, отдельно ставить не нужно
+- Сервер на Paper/Spigot **1.16.5**
+- Java **8-16** (для самого ядра 1.16.5)
+- Созданный бот в Telegram через [@BotFather](https://t.me/BotFather)
+- База данных SQLite уже вшита в плагин, отдельно ничего ставить не нужно
 
 ## Команды
 
-| Команда | Кто | Описание |
-|---|---|---|
-| `/link` | игрок | получить код для привязки аккаунта к Telegram |
+- `/link` - получить код для привязки Telegram (доступно только игрокам).
 
-Всё остальное управление (инфо, блокировка, разблокировка, отвязка, подтверждение входа при смене IP) происходит через кнопки в самом Telegram-боте.
+Все остальное управление (информация, блокировка, отвязка и подтверждение входа) работает через кнопки в боте.
 
 ---
 
 ## English
 
-TGLink is a Minecraft server plugin that integrates with Telegram: players link their in-game account via a one-time code, receive a reward for their first link, and can block/unblock server access or confirm a login after an IP change — all managed from a Telegram bot.
+TGLink is a Minecraft plugin for Spigot/Paper 1.16.5 that connects your in-game account to Telegram. Players link their profile with a one-time code, get a reward, and can protect their account with IP login confirmation and remote blocking.
 
 ### Features
 
-- **Account linking** via a one-time, 10-minute, single-use code.
-- **First-link reward** (configurable diamonds + XP; overflow drops on the ground instead of being lost).
-- **Block/unblock** server access directly from Telegram; blocked players are kicked on login.
-- **IP-change protection** — a linked player whose IP changes is teleported to a holding world (`AUTHTG` by default) and restricted (no movement/block breaking or placing/commands) until they confirm via a Telegram button. If the bot is unavailable, the IP check is skipped automatically so players are never locked out permanently.
-- **Account info** button in the bot shows nickname, block status, reward status, and last known IP.
+- **Account linking** - run `/link` in-game to get a 6-digit code (valid for 10 minutes) and send it to the bot in a private chat.
+- **First-link reward** - gives configurable diamonds and XP right after linking (or on next join). Extra items drop on the ground if the inventory is full.
+- **Remote lock** - lock or unlock your Minecraft account from Telegram. Online players are kicked immediately when locked.
+- **IP change protection** - if a linked player joins from a new IP, they are moved to a separate world (`AUTHTG` by default) and restricted until they tap Confirm in Telegram. If the bot is offline, the check is skipped so players do not get stuck.
+- **Account info** - check your nickname, lock status, reward status, and last IP in the bot.
 
 ### Installation
 
-1. Download `TGLink-<version>.jar` from [Releases](../../releases) or build it yourself (below).
-2. Drop the jar into your server's `plugins` folder.
+1. Download the jar from [Releases](../../releases) or build it from source.
+2. Put the jar into your server's `plugins` folder.
 3. Start the server once to generate `plugins/TGLink/config.yml`.
-4. Edit `config.yml` and set your Telegram bot's token and username (from [@BotFather](https://t.me/BotFather)).
-5. Restart the server (or `/reload` — the plugin shuts down its bot session without blocking the server).
-6. Players run `/link` in-game and send the code to the bot.
+4. Set your bot username and token from [@BotFather](https://t.me/BotFather) in `config.yml`.
+5. Restart the server.
+6. Players can now run `/link` and send the code to your bot.
 
-### Build from source
+### Build
 
 ```bash
 mvn clean package
@@ -88,7 +86,7 @@ mvn clean package
 
 ### Requirements
 
-- Paper/Spigot API **1.16.5**
-- Java **8–16** to run the Paper 1.16.5 server itself (newer JDKs such as 17+ are not officially supported by this Minecraft core version)
+- Paper/Spigot **1.16.5**
+- Java **8-16**
 - A Telegram bot token from [@BotFather](https://t.me/BotFather)
-- SQLite — bundled automatically via the shaded jar
+- SQLite is bundled inside the jar
